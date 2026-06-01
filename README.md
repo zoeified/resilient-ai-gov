@@ -2,7 +2,7 @@
 
 ### Supporting Resource for *Governance That Grows With Your AI*
 
-### [GRASSr00tz 2026](https://grassr00tz.com)
+### [GRASSr00tz 2026](https://grassr00tz.com/speakers#risk-2)
 
 ---
 
