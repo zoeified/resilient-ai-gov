@@ -176,7 +176,7 @@ CISO Advisor | Cybersecurity Educator | Leadership Coach
 
 🔗 [ghostscale.com](https://ghostscale.com)
 🔗 [kcs.coach](https://kcs.coach)
-🔗 [LinkedIn](https://linkedin.com/in/thomasfreeman)
+🔗 [LinkedIn](https://www.linkedin.com/in/kustomservices/)
 
 ---
 
