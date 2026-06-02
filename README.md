@@ -165,6 +165,7 @@ You do not need a budget approval to start.
 | MITRE ATLAS                       | <https://atlas.mitre.org>                                               | Adversarial threats and tactics catalog for AI systems |
 | OWASP Top 10 for LLM Applications | <https://genai.owasp.org>                                               | Application-level AI security risks                    |
 | AI Security Maturity Model        | <https://cloudsecurityalliance.org/artifacts/ai-security-maturity-model>| Track maturity                                         |
+| Quick Cynefin Overview Video      | <https://bit.ly/4u5Dy9H>                                                | Short 3d domain flyover to help explain each domain    |
 
 ---
 
