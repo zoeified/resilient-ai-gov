@@ -157,13 +157,14 @@ You do not need a budget approval to start.
 
 ## Related Standards and Frameworks
 
-| Resource                          | URL                                                     | Purpose                                                |
-| --------------------------------- | ------------------------------------------------------- | ------------------------------------------------------ |
-| Cynefin Framework                 | <https://thecynefin.co>                                 | The sense-making model behind domain determination     |
-| NIST AI Risk Management Framework | <https://www.nist.gov/itl/ai-risk-management-framework> | Complementary AI risk framework                        |
-| ISO/IEC 42001:2023                | <https://www.iso.org/standard/81230.html>               | AI management system standard                          |
-| MITRE ATLAS                       | <https://atlas.mitre.org>                               | Adversarial threats and tactics catalog for AI systems |
-| OWASP Top 10 for LLM Applications | <https://genai.owasp.org>                               | Application-level AI security risks                    |
+| Resource                          | URL                                                                     | Purpose                                                |
+| --------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------ |
+| Cynefin Framework                 | <https://thecynefin.co>                                                 | The sense-making model behind domain determination     |
+| NIST AI Risk Management Framework | <https://www.nist.gov/itl/ai-risk-management-framework>                 | Complementary AI risk framework                        |
+| ISO/IEC 42001:2023                | <https://www.iso.org/standard/81230.html>                               | AI management system standard                          |
+| MITRE ATLAS                       | <https://atlas.mitre.org>                                               | Adversarial threats and tactics catalog for AI systems |
+| OWASP Top 10 for LLM Applications | <https://genai.owasp.org>                                               | Application-level AI security risks                    |
+| AI Security Maturity Model        | <https://cloudsecurityalliance.org/artifacts/ai-security-maturity-model>| Track maturity                                         |
 
 ---
 
