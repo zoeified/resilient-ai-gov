@@ -43,7 +43,7 @@ resilient-ai-gov/
 │
 ├── README.md                                                                      ← You are here
 │
-├── Ghostscale Presentation - GRASSr00tz - Governance-That-Grows-With-Your-AI.pdf  ← Slide deck (added after talk)
+├── Ghostscale Presentation - GRASSR00tz - Resilient AI Governance.pdf  ← Slide deck (added after talk)
 │
 ├── Cynefin Domains Reference.pdf                                                  ← Overview of the five domains applied to real-world events
 │
