@@ -43,7 +43,7 @@ resilient-ai-gov/
 │
 ├── README.md                                                                      ← You are here
 │
-├── Ghostscale Presentation - GRASSr00tz - Governance-That-Grows-With-Your-AI.pdf  ← Slide deck (added after talk)
+├── Ghostscale Presentation - GRASSR00tz - Resilient AI Governance.pdf             ← Slide deck (added after talk)
 │
 ├── Cynefin Domains Reference.pdf                                                  ← Overview of the five domains applied to real-world events
 │
@@ -157,13 +157,15 @@ You do not need a budget approval to start.
 
 ## Related Standards and Frameworks
 
-| Resource                          | URL                                                     | Purpose                                                |
-| --------------------------------- | ------------------------------------------------------- | ------------------------------------------------------ |
-| Cynefin Framework                 | <https://thecynefin.co>                                 | The sense-making model behind domain determination     |
-| NIST AI Risk Management Framework | <https://www.nist.gov/itl/ai-risk-management-framework> | Complementary AI risk framework                        |
-| ISO/IEC 42001:2023                | <https://www.iso.org/standard/81230.html>               | AI management system standard                          |
-| MITRE ATLAS                       | <https://atlas.mitre.org>                               | Adversarial threats and tactics catalog for AI systems |
-| OWASP Top 10 for LLM Applications | <https://genai.owasp.org>                               | Application-level AI security risks                    |
+| Resource                          | URL                                                                     | Purpose                                                |
+| --------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------ |
+| Cynefin Framework                 | <https://thecynefin.co>                                                 | The sense-making model behind domain determination     |
+| NIST AI Risk Management Framework | <https://www.nist.gov/itl/ai-risk-management-framework>                 | Complementary AI risk framework                        |
+| ISO/IEC 42001:2023                | <https://www.iso.org/standard/81230.html>                               | AI management system standard                          |
+| MITRE ATLAS                       | <https://atlas.mitre.org>                                               | Adversarial threats and tactics catalog for AI systems |
+| OWASP Top 10 for LLM Applications | <https://genai.owasp.org>                                               | Application-level AI security risks                    |
+| AI Security Maturity Model        | <https://cloudsecurityalliance.org/artifacts/ai-security-maturity-model>| Track maturity                                         |
+| Quick Cynefin Overview Video      | <https://bit.ly/4u5Dy9H>                                                | Short 3d domain flyover to help explain each domain    |
 
 ---
 
@@ -175,7 +177,7 @@ CISO Advisor | Cybersecurity Educator | Leadership Coach
 
 🔗 [ghostscale.com](https://ghostscale.com)
 🔗 [kcs.coach](https://kcs.coach)
-🔗 [LinkedIn](https://linkedin.com/in/thomasfreeman)
+🔗 [LinkedIn](https://www.linkedin.com/in/kustomservices/)
 
 ---
 
