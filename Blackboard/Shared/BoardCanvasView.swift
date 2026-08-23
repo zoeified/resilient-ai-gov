@@ -1,17 +1,19 @@
 import SwiftUI
+import UIKit
 
-/// The single renderer used by both the app and the widget. Because strokes are
-/// stored in a unit square and every size is derived from the rendered width,
-/// the widget shows exactly what you drew in the app.
+/// Renders a board for display: slate, bullets, and the rasterised ink. The
+/// widget uses this directly; the app uses it only for the bullets layer,
+/// because there the live PencilKit canvas draws the ink instead.
 struct BoardCanvasView: View {
 
     let board: Board
-    /// The stroke currently under the user's finger, drawn but not yet saved.
-    var liveStroke: Stroke?
+    /// Pre-loaded ink. The widget hands in an image it read from the App Group.
+    var ink: UIImage?
     /// How many bullets fit before the list is truncated with a "+n more".
     var maxBullets: Int = 8
     /// The app paints its own slate; the widget uses `containerBackground`.
     var showsBackground: Bool = true
+    var showsEmptyHint: Bool = true
 
     var body: some View {
         GeometryReader { proxy in
@@ -24,12 +26,17 @@ struct BoardCanvasView: View {
                 BulletsLayer(bullets: board.bullets, size: size, maxBullets: maxBullets)
                     .equatable()
 
-                CommittedStrokesLayer(strokes: board.strokes)
-                    .equatable()
+                if let ink {
+                    Image(uiImage: ink)
+                        .resizable()
+                        .interpolation(.high)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: size.width, height: size.height)
+                        .clipped()
+                        .allowsHitTesting(false)
+                }
 
-                LiveStrokeLayer(stroke: liveStroke)
-
-                if board.isEmpty && liveStroke == nil {
+                if showsEmptyHint && board.bullets.allSatisfy(\.isBlank) {
                     EmptyBoardHint(size: size)
                 }
             }
@@ -38,112 +45,12 @@ struct BoardCanvasView: View {
     }
 }
 
-// MARK: - Chalk
-
-/// Committed strokes live in their own layer with a cheap equality check, so
-/// dragging a finger repaints only the stroke under it rather than the whole
-/// board on every sample.
-private struct CommittedStrokesLayer: View, Equatable {
-    let strokes: [Stroke]
-
-    var body: some View {
-        Canvas(rendersAsynchronously: false) { context, size in
-            for stroke in strokes {
-                ChalkRenderer.draw(stroke, in: &context, size: size)
-            }
-        }
-        .allowsHitTesting(false)
-    }
-
-    /// Strokes are only ever appended, removed from the end, or cleared, so
-    /// count plus the identity of the last one is enough to spot a change —
-    /// and it avoids comparing thousands of points every frame.
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.strokes.count == rhs.strokes.count
-            && lhs.strokes.last?.id == rhs.strokes.last?.id
-    }
-}
-
-private struct LiveStrokeLayer: View {
-    let stroke: Stroke?
-
-    var body: some View {
-        Canvas(rendersAsynchronously: false) { context, size in
-            if let stroke {
-                ChalkRenderer.draw(stroke, in: &context, size: size)
-            }
-        }
-        .allowsHitTesting(false)
-    }
-}
-
-enum ChalkRenderer {
-
-    static func draw(_ stroke: Stroke, in context: inout GraphicsContext, size: CGSize) {
-        let points = stroke.points.map {
-            CGPoint(x: $0.x * size.width, y: $0.y * size.height)
-        }
-        guard let first = points.first else { return }
-
-        let lineWidth = max(1.2, stroke.width * size.width)
-        let shading: GraphicsContext.Shading = stroke.isEraser
-            ? .color(ChalkTheme.eraserSmudge)
-            : .color(stroke.color.color.opacity(0.88))
-
-        // A tap with no drag is a chalk dot.
-        guard points.count > 1 else {
-            let dot = CGRect(
-                x: first.x - lineWidth / 2,
-                y: first.y - lineWidth / 2,
-                width: lineWidth,
-                height: lineWidth
-            )
-            context.fill(Circle().path(in: dot), with: shading)
-            return
-        }
-
-        let path = smoothedPath(points)
-        context.stroke(
-            path,
-            with: shading,
-            style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round)
-        )
-
-        // Second, broken pass: the grain that makes chalk look like chalk.
-        guard !stroke.isEraser else { return }
-        context.stroke(
-            path,
-            with: .color(.white.opacity(0.22)),
-            style: StrokeStyle(
-                lineWidth: lineWidth * 0.55,
-                lineCap: .round,
-                lineJoin: .round,
-                dash: [lineWidth * 0.5, lineWidth * 1.1],
-                dashPhase: lineWidth * 0.3
-            )
-        )
-    }
-
-    /// Quadratic smoothing through midpoints — turns the sampled finger
-    /// positions into a line that reads as handwriting rather than polygons.
-    static func smoothedPath(_ points: [CGPoint]) -> Path {
-        var path = Path()
-        guard let first = points.first else { return path }
-        path.move(to: first)
-
-        guard points.count > 2 else {
-            path.addLine(to: points[points.count - 1])
-            return path
-        }
-
-        for index in 1..<(points.count - 1) {
-            let current = points[index]
-            let next = points[index + 1]
-            let midpoint = CGPoint(x: (current.x + next.x) / 2, y: (current.y + next.y) / 2)
-            path.addQuadCurve(to: midpoint, control: current)
-        }
-        path.addLine(to: points[points.count - 1])
-        return path
+/// Loads the ink PNG from the App Group. Cheap enough to call per render — the
+/// widget renders once per change, and the app does not use this path at all.
+enum InkImageLoader {
+    static func load() -> UIImage? {
+        guard BoardFile.hasInkFile else { return nil }
+        return UIImage(contentsOfFile: BoardFile.inkURL.path)
     }
 }
 
@@ -154,11 +61,9 @@ private struct BulletsLayer: View, Equatable {
     let size: CGSize
     let maxBullets: Int
 
-    private var nonEmpty: [BulletItem] {
-        bullets.filter { !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-    }
-    private var visible: [BulletItem] { Array(nonEmpty.prefix(maxBullets)) }
-    private var overflow: Int { max(0, nonEmpty.count - maxBullets) }
+    private var written: [BulletItem] { bullets.filter { !$0.isBlank } }
+    private var visible: [BulletItem] { Array(written.prefix(maxBullets)) }
+    private var overflow: Int { max(0, written.count - maxBullets) }
 
     var body: some View {
         VStack(alignment: .leading, spacing: size.height * 0.016) {
@@ -172,13 +77,13 @@ private struct BulletsLayer: View, Equatable {
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                 }
-                .foregroundStyle(.white.opacity(0.92))
+                .foregroundStyle(ChalkTheme.chalk.opacity(0.92))
             }
 
             if overflow > 0 {
                 Text("+\(overflow) more")
                     .font(ChalkTheme.chalkFont(size: size.width * 0.040))
-                    .foregroundStyle(.white.opacity(0.5))
+                    .foregroundStyle(ChalkTheme.chalk.opacity(0.5))
             }
 
             Spacer(minLength: 0)
@@ -200,7 +105,7 @@ private struct EmptyBoardHint: View {
             Text("Tap to draw")
                 .font(ChalkTheme.chalkFont(size: size.width * 0.055))
         }
-        .foregroundStyle(.white.opacity(0.22))
+        .foregroundStyle(ChalkTheme.chalk.opacity(0.22))
         .frame(width: size.width, height: size.height)
         .allowsHitTesting(false)
     }

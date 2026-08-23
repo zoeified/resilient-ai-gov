@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1181728781D9A76646844732 /* ChalkToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C068490FEB474B4DAC8F02 /* ChalkToolbar.swift */; };
 		145DED7B4A4E8CCDBFD5166A /* BoardIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642E70204FD2001921651A1 /* BoardIntents.swift */; };
-		227A239F9F6B6EAC2659F741 /* DrawingBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03266D80BD33F3F82B3EADD /* DrawingBoardView.swift */; };
 		24521A08E8F7117316D83BD8 /* BoardIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642E70204FD2001921651A1 /* BoardIntents.swift */; };
 		2DF0C0CACFD506F05D00067E /* BoardCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295A869BA2802D45D9F1D20D /* BoardCanvasView.swift */; };
 		3707A938A5DEA432D8B304E5 /* ChalkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */; };
@@ -23,9 +22,11 @@
 		B13A253537BCAC9E1F3152FA /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF843A92E4AACF29909EC200 /* AppGroup.swift */; };
 		BA99CD6A95C1DDE6A8493046 /* BlackboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CBF2C398FE577DA11B6B79 /* BlackboardApp.swift */; };
 		C15F70E941C3ABFA6F98A357 /* BlackboardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93E3BB31F28AFC0AA0E8FCC /* BlackboardWidget.swift */; };
+		C9FE3EB26DA7A0C16E9DD5FA /* DrawingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03430EB32895BE0D6848932D /* DrawingController.swift */; };
 		D57BAF528E31511BDDDAB93E /* NotesEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88910EC5C1988274AC30C7CE /* NotesEditorView.swift */; };
 		D987817BCD3A11EBF75FF2C1 /* BlackboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195AF6B32590B21197A83344 /* BlackboardShortcuts.swift */; };
 		DD9901D72974DDE23FF3C8EE /* ChalkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */; };
+		E6DA9EDB98FBD60C06F6D959 /* PencilBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3EED64C766D4B058CFEFB0 /* PencilBoardView.swift */; };
 		E8AE201C5611F1C81914DDF8 /* BoardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B3B06E8AA444F7A4E7A56 /* BoardStore.swift */; };
 		D104D11189389958E0E9F8CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9362427B1F9912B138A4AAC /* Assets.xcassets */; };
 		6F56B5EA8EC5CA14D357CD09 /* BlackboardWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0FD7488223EA0E20BD335592 /* BlackboardWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -56,12 +57,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03430EB32895BE0D6848932D /* DrawingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingController.swift; sourceTree = "<group>"; };
 		0FD7488223EA0E20BD335592 /* BlackboardWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlackboardWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		11CBF2C398FE577DA11B6B79 /* BlackboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardApp.swift; sourceTree = "<group>"; };
 		195AF6B32590B21197A83344 /* BlackboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardShortcuts.swift; sourceTree = "<group>"; };
 		251B3B06E8AA444F7A4E7A56 /* BoardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardStore.swift; sourceTree = "<group>"; };
 		2642E70204FD2001921651A1 /* BoardIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIntents.swift; sourceTree = "<group>"; };
 		295A869BA2802D45D9F1D20D /* BoardCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCanvasView.swift; sourceTree = "<group>"; };
+		5B3EED64C766D4B058CFEFB0 /* PencilBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PencilBoardView.swift; sourceTree = "<group>"; };
 		7A7AEF0E94B6CD8B9277328C /* Blackboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blackboard.entitlements; sourceTree = "<group>"; };
 		7B5CE1CE29232ED1BE7ACF1B /* BlackboardWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardWidgetBundle.swift; sourceTree = "<group>"; };
 		7EEBE48719F61E28201ED6DC /* BoardScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardScreen.swift; sourceTree = "<group>"; };
@@ -75,7 +78,6 @@
 		B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChalkTheme.swift; sourceTree = "<group>"; };
 		BF843A92E4AACF29909EC200 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
 		CC902BADF1A4DB732FAC7756 /* BlackboardWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlackboardWidget.entitlements; sourceTree = "<group>"; };
-		D03266D80BD33F3F82B3EADD /* DrawingBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardView.swift; sourceTree = "<group>"; };
 		D7819A2BC3CE088C6754F929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,7 +136,8 @@
 			children = (
 				11CBF2C398FE577DA11B6B79 /* BlackboardApp.swift */,
 				7EEBE48719F61E28201ED6DC /* BoardScreen.swift */,
-				D03266D80BD33F3F82B3EADD /* DrawingBoardView.swift */,
+				03430EB32895BE0D6848932D /* DrawingController.swift */,
+				5B3EED64C766D4B058CFEFB0 /* PencilBoardView.swift */,
 				A5C068490FEB474B4DAC8F02 /* ChalkToolbar.swift */,
 				88910EC5C1988274AC30C7CE /* NotesEditorView.swift */,
 				195AF6B32590B21197A83344 /* BlackboardShortcuts.swift */,
@@ -256,7 +259,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1181728781D9A76646844732 /* ChalkToolbar.swift in Sources */,
-				227A239F9F6B6EAC2659F741 /* DrawingBoardView.swift in Sources */,
 				24521A08E8F7117316D83BD8 /* BoardIntents.swift in Sources */,
 				2DF0C0CACFD506F05D00067E /* BoardCanvasView.swift in Sources */,
 				5D704BCFF9A9E458A7DF42AE /* BoardStore.swift in Sources */,
@@ -264,9 +266,11 @@
 				85A6F4515706E6CEBC5CDD1F /* BoardModel.swift in Sources */,
 				B13A253537BCAC9E1F3152FA /* AppGroup.swift in Sources */,
 				BA99CD6A95C1DDE6A8493046 /* BlackboardApp.swift in Sources */,
+				C9FE3EB26DA7A0C16E9DD5FA /* DrawingController.swift in Sources */,
 				D57BAF528E31511BDDDAB93E /* NotesEditorView.swift in Sources */,
 				D987817BCD3A11EBF75FF2C1 /* BlackboardShortcuts.swift in Sources */,
 				DD9901D72974DDE23FF3C8EE /* ChalkTheme.swift in Sources */,
+				E6DA9EDB98FBD60C06F6D959 /* PencilBoardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +392,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.blackboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -411,7 +415,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.blackboard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -434,7 +438,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -457,7 +461,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

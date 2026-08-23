@@ -6,11 +6,21 @@ struct BoardScreen: View {
     @ObservedObject var store: BoardStore
     @Binding var pendingDestination: DeepLink.Destination?
 
-    @State private var tool = ChalkTool()
+    @StateObject private var drawing: DrawingController
+    @Environment(\.scenePhase) private var scenePhase
+
     @State private var draftBullet = ""
     @State private var showingNotes = false
     @State private var showingWipeToast = false
     @FocusState private var bulletFieldFocused: Bool
+
+    init(store: BoardStore, pendingDestination: Binding<DeepLink.Destination?>) {
+        self.store = store
+        self._pendingDestination = pendingDestination
+        self._drawing = StateObject(wrappedValue: DrawingController(store: store))
+    }
+
+    private var isPad: Bool { UIDevice.current.userInterfaceIdiom == .pad }
 
     var body: some View {
         ZStack {
@@ -18,26 +28,15 @@ struct BoardScreen: View {
 
             VStack(spacing: 16) {
                 header
-
-                DrawingBoardView(store: store, tool: tool)
-                    .padding(.horizontal, 14)
-
+                board
                 quickAddField
-
-                ChalkToolbar(
-                    tool: $tool,
-                    canUndo: store.canUndoStroke,
-                    onUndo: {
-                        store.undoLastStroke()
-                        Haptics.tap()
-                    },
-                    onWipe: wipe,
-                    onNotes: { showingNotes = true }
-                )
-                .padding(.horizontal, 14)
-                .padding(.bottom, 6)
+                toolbar
             }
             .padding(.top, 8)
+            .padding(.bottom, 6)
+            // Without a ceiling the board would sprawl across a 13-inch iPad
+            // put the chalk tray an arm's length from the drawing.
+            .frame(maxWidth: 760)
 
             if showingWipeToast && store.canUndoWipe {
                 wipeToast
@@ -52,13 +51,26 @@ struct BoardScreen: View {
         .onAppear {
             handle(pendingDestination)
         }
+        .onChange(of: scenePhase) { _, phase in
+            switch phase {
+            case .active:
+                // A wipe from the widget, or a note added by Siri, happened in
+                // another process — pick it up.
+                store.reloadFromDisk()
+            case .inactive, .background:
+                drawing.flush()
+                store.saveNow()
+            @unknown default:
+                break
+            }
+        }
     }
 
     // MARK: - Pieces
 
     private var roomBackground: some View {
         LinearGradient(
-            colors: [Color(red: 0.09, green: 0.09, blue: 0.11), .black],
+            colors: [Color(red: 0.07, green: 0.07, blue: 0.08), .black],
             startPoint: .top,
             endPoint: .bottom
         )
@@ -69,7 +81,7 @@ struct BoardScreen: View {
         HStack(alignment: .firstTextBaseline) {
             Text("Blackboard")
                 .font(ChalkTheme.chalkFont(size: 22))
-                .foregroundStyle(.white.opacity(0.85))
+                .foregroundStyle(ChalkTheme.chalk.opacity(0.85))
 
             Spacer()
 
@@ -81,6 +93,26 @@ struct BoardScreen: View {
             }
         }
         .padding(.horizontal, 22)
+    }
+
+    private var board: some View {
+        ZStack {
+            BoardCanvasView(
+                board: store.board,
+                ink: nil,
+                maxBullets: 8,
+                showsBackground: true,
+                showsEmptyHint: !drawing.hasInk
+            )
+
+            PencilBoardView(controller: drawing, inkRevision: store.inkRevision)
+        }
+        .aspectRatio(BoardGeometry.aspect, contentMode: .fit)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .shadow(color: .black.opacity(0.65), radius: 20, x: 0, y: 12)
+        .padding(.horizontal, 14)
+        .accessibilityLabel("Blackboard")
+        .accessibilityHint("Draw with a finger or Apple Pencil.")
     }
 
     private var quickAddField: some View {
@@ -106,8 +138,22 @@ struct BoardScreen: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .background(
-            Capsule().fill(Color.white.opacity(0.07))
+        .background(Capsule().fill(Color.white.opacity(0.07)))
+        .padding(.horizontal, 14)
+    }
+
+    private var toolbar: some View {
+        ChalkToolbar(
+            tool: $drawing.tool,
+            pencilOnly: $drawing.pencilOnly,
+            showsPencilToggle: isPad,
+            canUndo: drawing.canUndo,
+            onUndo: {
+                drawing.undo()
+                Haptics.tap()
+            },
+            onNotes: { showingNotes = true },
+            onWipe: wipe
         )
         .padding(.horizontal, 14)
     }
@@ -140,7 +186,6 @@ struct BoardScreen: View {
                 store.dismissUndoWipe()
             }
         }
-        .allowsHitTesting(true)
     }
 
     // MARK: - Actions
@@ -152,8 +197,10 @@ struct BoardScreen: View {
     }
 
     private func wipe() {
-        guard !store.board.isEmpty else { return }
+        guard !store.board.bullets.isEmpty || drawing.hasInk else { return }
+        drawing.flush()
         store.wipe()
+        drawing.clearCanvas()
         Haptics.wipe()
         withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
             showingWipeToast = true

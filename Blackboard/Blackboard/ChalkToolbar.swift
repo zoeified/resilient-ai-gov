@@ -1,14 +1,17 @@
 import SwiftUI
 
-/// The chalk tray: colours, thickness, eraser, undo and wipe — one tap each,
-/// no modes to hunt for.
+/// The chalk tray. One colour — white — so what is left is thickness, eraser,
+/// undo, notes and wipe. One tap each, no modes to hunt for.
 struct ChalkToolbar: View {
 
     @Binding var tool: ChalkTool
+    @Binding var pencilOnly: Bool
+    /// Palm rejection is only meaningful where there is a Pencil.
+    let showsPencilToggle: Bool
     let canUndo: Bool
     let onUndo: () -> Void
-    let onWipe: () -> Void
     let onNotes: () -> Void
+    let onWipe: () -> Void
 
     private let thicknesses: [Double] = [
         BoardGeometry.thinChalk,
@@ -18,21 +21,7 @@ struct ChalkToolbar: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            HStack(spacing: 14) {
-                ForEach(ChalkColor.allCases) { chalk in
-                    ChalkStickButton(
-                        chalk: chalk,
-                        isSelected: tool.color == chalk && !tool.isEraser
-                    ) {
-                        tool.color = chalk
-                        tool.isEraser = false
-                    }
-                }
-
-                Divider()
-                    .frame(height: 26)
-                    .overlay(Color.white.opacity(0.15))
-
+            HStack(spacing: 18) {
                 ForEach(thicknesses, id: \.self) { thickness in
                     ThicknessButton(
                         thickness: thickness,
@@ -41,6 +30,22 @@ struct ChalkToolbar: View {
                         tool.width = thickness
                         tool.isEraser = false
                     }
+                }
+
+                if showsPencilToggle {
+                    Divider()
+                        .frame(height: 26)
+                        .overlay(Color.white.opacity(0.15))
+
+                    Toggle(isOn: $pencilOnly) {
+                        Label("Pencil only", systemImage: "applepencil")
+                            .font(.system(size: 13, weight: .medium, design: .rounded))
+                    }
+                    .toggleStyle(.button)
+                    .labelStyle(.titleAndIcon)
+                    .tint(.white.opacity(0.9))
+                    .foregroundStyle(pencilOnly ? .white : .white.opacity(0.6))
+                    .accessibilityHint("Ignore fingers and palms while drawing.")
                 }
             }
 
@@ -81,50 +86,37 @@ struct ChalkToolbar: View {
     }
 }
 
-private struct ChalkStickButton: View {
-    let chalk: ChalkColor
-    let isSelected: Bool
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            Capsule()
-                .fill(chalk.color)
-                .frame(width: 22, height: isSelected ? 34 : 26)
-                .overlay(
-                    Capsule().strokeBorder(Color.black.opacity(0.25), lineWidth: 1)
-                )
-                .shadow(color: chalk.color.opacity(isSelected ? 0.55 : 0), radius: 7)
-                .animation(.spring(response: 0.28, dampingFraction: 0.7), value: isSelected)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(chalk.displayName)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
-    }
-}
-
+/// A chalk dot at the size it will actually draw.
 private struct ThicknessButton: View {
     let thickness: Double
     let isSelected: Bool
     let action: () -> Void
 
     private var diameter: CGFloat {
-        CGFloat(thickness / BoardGeometry.thickChalk) * 16 + 5
+        CGFloat(thickness / BoardGeometry.thickChalk) * 18 + 6
     }
 
     var body: some View {
         Button(action: action) {
             Circle()
-                .fill(Color.white.opacity(isSelected ? 0.95 : 0.45))
+                .fill(ChalkTheme.chalk.opacity(isSelected ? 1 : 0.4))
                 .frame(width: diameter, height: diameter)
-                .frame(width: 30, height: 34)
+                .shadow(color: .white.opacity(isSelected ? 0.5 : 0), radius: 6)
+                .frame(width: 40, height: 36)
                 .contentShape(Rectangle())
+                .animation(.spring(response: 0.28, dampingFraction: 0.7), value: isSelected)
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(thickness == BoardGeometry.thinChalk
-                            ? "Thin chalk"
-                            : thickness == BoardGeometry.mediumChalk ? "Medium chalk" : "Thick chalk")
+        .accessibilityLabel(label)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
+    }
+
+    private var label: String {
+        switch thickness {
+        case BoardGeometry.thinChalk: return "Thin chalk"
+        case BoardGeometry.thickChalk: return "Thick chalk"
+        default: return "Medium chalk"
+        }
     }
 }
 

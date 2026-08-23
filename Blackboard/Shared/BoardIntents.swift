@@ -56,10 +56,10 @@ struct AddNoteIntent: AppIntent {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return .result() }
 
-        var board = BoardFile.load()
+        var board = BoardFile.loadBoard()
         board.bullets.append(BulletItem(text: trimmed))
         board.touch()
-        BoardFile.save(board)
+        BoardFile.saveBoard(board)
         WidgetCenter.shared.reloadAllTimelines()
         return .result()
     }

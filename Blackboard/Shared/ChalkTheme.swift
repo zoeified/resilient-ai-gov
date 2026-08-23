@@ -2,16 +2,14 @@ import SwiftUI
 
 enum ChalkTheme {
 
-    static let slateTop = Color(red: 0.11, green: 0.15, blue: 0.14)
-    static let slateBottom = Color(red: 0.05, green: 0.07, blue: 0.07)
-    static let frameOuter = Color(red: 0.36, green: 0.25, blue: 0.16)
-    static let frameInner = Color(red: 0.24, green: 0.16, blue: 0.10)
-    /// The eraser paints a slightly lighter, opaque streak rather than
-    /// cutting a hole — which is what a felt eraser actually leaves behind,
-    /// and avoids relying on blend modes inside the widget renderer.
-    static let eraserSmudge = Color(red: 0.13, green: 0.175, blue: 0.165)
+    /// Neutral near-black. Not green, not blue — just slate, so white chalk is
+    /// the only colour on the board.
+    static let slateTop = Color(red: 0.075, green: 0.075, blue: 0.080)
+    static let slateBottom = Color(red: 0.025, green: 0.025, blue: 0.028)
 
-    /// Chalkduster ships with iOS; the rounded system face is a safe fallback.
+    static let chalk = Color(red: 0.97, green: 0.97, blue: 0.96)
+
+    /// Chalkduster ships with iOS.
     static func chalkFont(size: CGFloat) -> Font {
         .custom("Chalkduster", size: size)
     }
@@ -42,7 +40,7 @@ private let chalkDust: [DustSpeck] = {
         DustSpeck(
             position: CGPoint(x: random.nextUnit(), y: random.nextUnit()),
             radius: 0.2 + random.nextUnit() * 1.1,
-            opacity: 0.02 + random.nextUnit() * 0.06
+            opacity: 0.02 + random.nextUnit() * 0.05
         )
     }
 }()
@@ -53,12 +51,12 @@ private let chalkSmears: [(CGPoint, CGSize, Double)] = {
         (
             CGPoint(x: random.nextUnit(), y: random.nextUnit()),
             CGSize(width: 0.18 + random.nextUnit() * 0.34, height: 0.02 + random.nextUnit() * 0.05),
-            0.012 + random.nextUnit() * 0.022
+            0.010 + random.nextUnit() * 0.018
         )
     }
 }()
 
-/// The slate itself: gradient, ghost of a thousand old lessons, and a vignette.
+/// The slate: near-black, with the ghost of a thousand old lessons.
 struct ChalkboardBackground: View {
     var body: some View {
         ZStack {
@@ -94,13 +92,6 @@ struct ChalkboardBackground: View {
                     )
                 }
             }
-
-            RadialGradient(
-                colors: [.clear, .black.opacity(0.35)],
-                center: .center,
-                startRadius: 10,
-                endRadius: 420
-            )
         }
     }
 }

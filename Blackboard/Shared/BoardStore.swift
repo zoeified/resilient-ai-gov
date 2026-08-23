@@ -1,16 +1,17 @@
 import Foundation
 import WidgetKit
 
-/// Disk access for the board. Deliberately free of any actor isolation: the
-/// app, the widget extension and App Intents all read and write through here.
+/// Everything on disk, in the App Group container so the widget can see it:
+///
+///   board.json     bullets + metadata
+///   drawing.data   PencilKit's own representation, for editing
+///   ink.png        the same strokes rasterised on a transparent background,
+///                  which is all the widget needs to display them
+///
+/// Deliberately free of actor isolation and of any PencilKit import: the app,
+/// the widget and App Intents all go through here.
 enum BoardFile {
 
-    private static let fileName = "board.json"
-    private static let backupName = "board-backup.json"
-
-    /// The App Group container when configured, otherwise the app's own
-    /// Documents directory. The fallback keeps the app usable while you are
-    /// still wiring up capabilities — the widget just stays empty.
     static var directory: URL {
         if let shared = AppGroup.containerURL { return shared }
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -18,8 +19,13 @@ enum BoardFile {
 
     static var usesAppGroup: Bool { AppGroup.isConfigured }
 
-    private static var fileURL: URL { directory.appendingPathComponent(fileName) }
-    private static var backupURL: URL { directory.appendingPathComponent(backupName) }
+    static var boardURL: URL { directory.appendingPathComponent("board.json") }
+    static var drawingURL: URL { directory.appendingPathComponent("drawing.data") }
+    static var inkURL: URL { directory.appendingPathComponent("ink.png") }
+
+    private static var boardBackupURL: URL { directory.appendingPathComponent("board-backup.json") }
+    private static var drawingBackupURL: URL { directory.appendingPathComponent("drawing-backup.data") }
+    private static var inkBackupURL: URL { directory.appendingPathComponent("ink-backup.png") }
 
     private static var encoder: JSONEncoder {
         let encoder = JSONEncoder()
@@ -33,49 +39,99 @@ enum BoardFile {
         return decoder
     }
 
-    static func load() -> Board {
-        load(from: fileURL) ?? .empty
+    // MARK: - Board
+
+    static func loadBoard() -> Board {
+        guard let data = try? Data(contentsOf: boardURL),
+              let board = try? decoder.decode(Board.self, from: data)
+        else { return .empty }
+        return board
     }
 
-    static func save(_ board: Board) {
-        write(board, to: fileURL)
+    static func saveBoard(_ board: Board) {
+        guard let data = try? encoder.encode(board) else { return }
+        try? data.write(to: boardURL, options: .atomic)
     }
 
-    static func loadBackup() -> Board? {
-        load(from: backupURL)
+    // MARK: - Ink
+
+    static func loadDrawingData() -> Data? {
+        try? Data(contentsOf: drawingURL)
     }
 
-    static func clearBackup() {
-        try? FileManager.default.removeItem(at: backupURL)
+    /// `png` is nil when the drawing is empty — the file is removed rather than
+    /// left holding a stale picture.
+    static func saveInk(drawing: Data, png: Data?) {
+        try? drawing.write(to: drawingURL, options: .atomic)
+        if let png {
+            try? png.write(to: inkURL, options: .atomic)
+        } else {
+            try? FileManager.default.removeItem(at: inkURL)
+        }
     }
 
-    /// Wipes the board, keeping a copy so the wipe can be undone.
+    static var hasInkFile: Bool {
+        FileManager.default.fileExists(atPath: inkURL.path)
+    }
+
+    // MARK: - Wiping
+
+    /// Wipes the board, keeping one generation of backup so the wipe can be
+    /// undone — including when it was triggered from the widget.
     @discardableResult
     static func wipe() -> Board {
-        let current = load()
+        let current = loadBoard()
         if !current.isEmpty {
-            write(current, to: backupURL)
+            move(boardURL, to: boardBackupURL)
+            move(drawingURL, to: drawingBackupURL)
+            move(inkURL, to: inkBackupURL)
         }
+        try? FileManager.default.removeItem(at: drawingURL)
+        try? FileManager.default.removeItem(at: inkURL)
+
         var cleared = Board()
         cleared.touch()
-        save(cleared)
+        saveBoard(cleared)
         return cleared
     }
 
-    private static func load(from url: URL) -> Board? {
-        guard let data = try? Data(contentsOf: url) else { return nil }
-        return try? decoder.decode(Board.self, from: data)
+    static var hasBackup: Bool {
+        FileManager.default.fileExists(atPath: boardBackupURL.path)
     }
 
-    private static func write(_ board: Board, to url: URL) {
-        guard let data = try? encoder.encode(board) else { return }
-        try? data.write(to: url, options: .atomic)
+    /// Puts the backup back and returns it, or nil when there is nothing to
+    /// restore.
+    static func restoreBackup() -> Board? {
+        guard hasBackup else { return nil }
+        move(boardBackupURL, to: boardURL)
+        move(drawingBackupURL, to: drawingURL)
+        move(inkBackupURL, to: inkURL)
+
+        var restored = loadBoard()
+        restored.touch()
+        saveBoard(restored)
+        return restored
+    }
+
+    static func clearBackup() {
+        for url in [boardBackupURL, drawingBackupURL, inkBackupURL] {
+            try? FileManager.default.removeItem(at: url)
+        }
+    }
+
+    /// Replaces the destination, and treats a missing source as "remove the
+    /// destination" so backup and live state never disagree.
+    private static func move(_ source: URL, to destination: URL) {
+        let manager = FileManager.default
+        try? manager.removeItem(at: destination)
+        guard manager.fileExists(atPath: source.path) else { return }
+        try? manager.moveItem(at: source, to: destination)
     }
 }
 
 /// Two-tap arming for the widget's wipe button. A single stray tap on the Home
 /// Screen should never erase the board, so the first tap arms and the second
-/// tap within the window actually wipes.
+/// within the window actually wipes.
 enum WipeArm {
     static let window: TimeInterval = 6
 
@@ -116,29 +172,28 @@ final class BoardStore: ObservableObject {
 
     @Published private(set) var board: Board
     @Published private(set) var canUndoWipe: Bool
+    /// Bumped whenever the ink on disk changes underneath the canvas — a wipe,
+    /// an undone wipe, or a board edited elsewhere. The canvas watches this to
+    /// know when to reload, rather than being reset on every redraw.
+    @Published private(set) var inkRevision = UUID()
 
     private var saveTask: Task<Void, Never>?
 
     init(board: Board? = nil) {
-        let loaded = board ?? BoardFile.load()
-        self.board = loaded
-        self.canUndoWipe = BoardFile.loadBackup() != nil
+        self.board = board ?? BoardFile.loadBoard()
+        self.canUndoWipe = BoardFile.hasBackup
     }
 
     var usesAppGroup: Bool { BoardFile.usesAppGroup }
 
-    // MARK: - Drawing
+    // MARK: - Ink
 
-    func append(_ stroke: Stroke) {
-        board.append(stroke)
-        scheduleSave()
-    }
-
-    var canUndoStroke: Bool { !board.strokes.isEmpty }
-
-    func undoLastStroke() {
-        guard !board.strokes.isEmpty else { return }
-        board.strokes.removeLast()
+    /// Called by the canvas after a stroke settles. The bytes are produced by
+    /// the app (PencilKit lives there); this type only files them away.
+    func inkChanged(drawing: Data, png: Data?, canvasWidth: CGFloat) {
+        BoardFile.saveInk(drawing: drawing, png: png)
+        board.hasInk = png != nil
+        board.canvasWidth = Double(canvasWidth)
         board.touch()
         scheduleSave()
     }
@@ -153,23 +208,14 @@ final class BoardStore: ObservableObject {
         scheduleSave()
     }
 
-    /// Empty text is kept while the row is being edited — deleting a bullet the
-    /// moment you clear it to retype would be maddening. `pruneEmptyBullets()`
-    /// tidies up when editing finishes.
+    /// Blank text is kept while a row is being edited — deleting a bullet the
+    /// moment you clear it to retype would be maddening. `saveNow()` tidies up
+    /// when editing finishes.
     func updateBullet(id: UUID, text: String) {
         guard let index = board.bullets.firstIndex(where: { $0.id == id }) else { return }
         board.bullets[index].text = text
         board.touch()
         scheduleSave()
-    }
-
-    func pruneEmptyBullets() {
-        let kept = board.bullets.filter {
-            !$0.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        }
-        guard kept.count != board.bullets.count else { return }
-        board.bullets = kept
-        board.touch()
     }
 
     func removeBullets(at offsets: IndexSet) {
@@ -194,19 +240,25 @@ final class BoardStore: ObservableObject {
     // MARK: - Wiping
 
     func wipe() {
+        // A save scheduled by the last stroke would otherwise fire after the
+        // wipe and write the old board straight back.
+        saveTask?.cancel()
+        saveTask = nil
         board = BoardFile.wipe()
-        canUndoWipe = BoardFile.loadBackup() != nil
+        canUndoWipe = BoardFile.hasBackup
+        inkRevision = UUID()
         WipeArm.disarm()
         reloadWidgets()
     }
 
     func undoWipe() {
-        guard var restored = BoardFile.loadBackup() else { return }
-        restored.touch()
+        saveTask?.cancel()
+        saveTask = nil
+        guard let restored = BoardFile.restoreBackup() else { return }
         board = restored
-        BoardFile.clearBackup()
         canUndoWipe = false
-        saveNow()
+        inkRevision = UUID()
+        reloadWidgets()
     }
 
     func dismissUndoWipe() {
@@ -216,35 +268,34 @@ final class BoardStore: ObservableObject {
 
     // MARK: - Persistence
 
-    /// Coalesces the flurry of writes that a drawing session produces.
+    /// Coalesces the flurry of writes that an editing session produces.
     private func scheduleSave() {
         saveTask?.cancel()
         saveTask = Task { [board] in
             try? await Task.sleep(for: .milliseconds(400))
             guard !Task.isCancelled else { return }
-            BoardFile.save(board)
+            BoardFile.saveBoard(board)
             WidgetCenter.shared.reloadAllTimelines()
         }
     }
 
-    /// Writes immediately — used when the app leaves the foreground so the
+    /// Writes immediately — used when the app leaves the foreground, so the
     /// widget is already correct by the time you look at the Home Screen.
     func saveNow() {
         saveTask?.cancel()
         saveTask = nil
-        pruneEmptyBullets()
-        BoardFile.save(board)
+        board.pruneBlankBullets()
+        BoardFile.saveBoard(board)
         reloadWidgets()
     }
 
-    /// Picks up changes made while the app was backgrounded (a wipe from the
-    /// widget, a note added through Siri).
+    /// Picks up changes made while the app was backgrounded: a wipe from the
+    /// widget, or a note added through Siri.
     func reloadFromDisk() {
-        let disk = BoardFile.load()
-        if disk.updatedAt > board.updatedAt {
-            board = disk
-        }
-        canUndoWipe = BoardFile.loadBackup() != nil
+        let disk = BoardFile.loadBoard()
+        guard disk.updatedAt > board.updatedAt else { return }
+        board = disk
+        inkRevision = UUID()
     }
 
     private func reloadWidgets() {
