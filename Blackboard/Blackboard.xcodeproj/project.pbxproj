@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1181728781D9A76646844732 /* ChalkToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C068490FEB474B4DAC8F02 /* ChalkToolbar.swift */; };
+		145DED7B4A4E8CCDBFD5166A /* BoardIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642E70204FD2001921651A1 /* BoardIntents.swift */; };
+		227A239F9F6B6EAC2659F741 /* DrawingBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03266D80BD33F3F82B3EADD /* DrawingBoardView.swift */; };
+		24521A08E8F7117316D83BD8 /* BoardIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642E70204FD2001921651A1 /* BoardIntents.swift */; };
+		2DF0C0CACFD506F05D00067E /* BoardCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295A869BA2802D45D9F1D20D /* BoardCanvasView.swift */; };
+		3707A938A5DEA432D8B304E5 /* ChalkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */; };
+		5D704BCFF9A9E458A7DF42AE /* BoardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B3B06E8AA444F7A4E7A56 /* BoardStore.swift */; };
+		8022AE9BBFEEA26BB24CD22A /* BoardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEBE48719F61E28201ED6DC /* BoardScreen.swift */; };
+		85A6F4515706E6CEBC5CDD1F /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ED471FB50841B0DD26BFF0 /* BoardModel.swift */; };
+		8A6CD8B4FFF750A8A01FBEFC /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF843A92E4AACF29909EC200 /* AppGroup.swift */; };
+		8C297A920374C3482B591395 /* BoardCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295A869BA2802D45D9F1D20D /* BoardCanvasView.swift */; };
+		A1385D8F44B163EDD8C0AA4C /* BoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4ED471FB50841B0DD26BFF0 /* BoardModel.swift */; };
+		A2BE3C9929E3C6A76263732B /* BlackboardWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5CE1CE29232ED1BE7ACF1B /* BlackboardWidgetBundle.swift */; };
+		B13A253537BCAC9E1F3152FA /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF843A92E4AACF29909EC200 /* AppGroup.swift */; };
+		BA99CD6A95C1DDE6A8493046 /* BlackboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CBF2C398FE577DA11B6B79 /* BlackboardApp.swift */; };
+		C15F70E941C3ABFA6F98A357 /* BlackboardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93E3BB31F28AFC0AA0E8FCC /* BlackboardWidget.swift */; };
+		D57BAF528E31511BDDDAB93E /* NotesEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88910EC5C1988274AC30C7CE /* NotesEditorView.swift */; };
+		D987817BCD3A11EBF75FF2C1 /* BlackboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195AF6B32590B21197A83344 /* BlackboardShortcuts.swift */; };
+		DD9901D72974DDE23FF3C8EE /* ChalkTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */; };
+		E8AE201C5611F1C81914DDF8 /* BoardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B3B06E8AA444F7A4E7A56 /* BoardStore.swift */; };
+		D104D11189389958E0E9F8CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9362427B1F9912B138A4AAC /* Assets.xcassets */; };
+		6F56B5EA8EC5CA14D357CD09 /* BlackboardWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0FD7488223EA0E20BD335592 /* BlackboardWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		86BEC9D78DAE6F5C4E6DEE89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D627CACEBFAAA465612B83CD;
+			remoteInfo = BlackboardWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6B461CD41EA51ABC93F86EC9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6F56B5EA8EC5CA14D357CD09 /* BlackboardWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0FD7488223EA0E20BD335592 /* BlackboardWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BlackboardWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		11CBF2C398FE577DA11B6B79 /* BlackboardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardApp.swift; sourceTree = "<group>"; };
+		195AF6B32590B21197A83344 /* BlackboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardShortcuts.swift; sourceTree = "<group>"; };
+		251B3B06E8AA444F7A4E7A56 /* BoardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardStore.swift; sourceTree = "<group>"; };
+		2642E70204FD2001921651A1 /* BoardIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardIntents.swift; sourceTree = "<group>"; };
+		295A869BA2802D45D9F1D20D /* BoardCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCanvasView.swift; sourceTree = "<group>"; };
+		7A7AEF0E94B6CD8B9277328C /* Blackboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blackboard.entitlements; sourceTree = "<group>"; };
+		7B5CE1CE29232ED1BE7ACF1B /* BlackboardWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardWidgetBundle.swift; sourceTree = "<group>"; };
+		7EEBE48719F61E28201ED6DC /* BoardScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardScreen.swift; sourceTree = "<group>"; };
+		88910EC5C1988274AC30C7CE /* NotesEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesEditorView.swift; sourceTree = "<group>"; };
+		996AD237BC284D463E664FFE /* Blackboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blackboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5C068490FEB474B4DAC8F02 /* ChalkToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChalkToolbar.swift; sourceTree = "<group>"; };
+		B3791E17015568A1684FBE8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B4ED471FB50841B0DD26BFF0 /* BoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardModel.swift; sourceTree = "<group>"; };
+		B9362427B1F9912B138A4AAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B93E3BB31F28AFC0AA0E8FCC /* BlackboardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackboardWidget.swift; sourceTree = "<group>"; };
+		B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChalkTheme.swift; sourceTree = "<group>"; };
+		BF843A92E4AACF29909EC200 /* AppGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroup.swift; sourceTree = "<group>"; };
+		CC902BADF1A4DB732FAC7756 /* BlackboardWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlackboardWidget.entitlements; sourceTree = "<group>"; };
+		D03266D80BD33F3F82B3EADD /* DrawingBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingBoardView.swift; sourceTree = "<group>"; };
+		D7819A2BC3CE088C6754F929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0F87A878AEB94E823836E22B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2459633578009F3E492FB24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		71DC27D9F8E3B109C877BFC4 = {
+			isa = PBXGroup;
+			children = (
+				3AC73B1B9BE32CC7AB22405E /* Shared */,
+				42006AB264CF2AB66A8087C0 /* Blackboard */,
+				EC32E4B80B4AE4ED407A736D /* BlackboardWidget */,
+				113236722DEE1DC96F378B9D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		113236722DEE1DC96F378B9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				996AD237BC284D463E664FFE /* Blackboard.app */,
+				0FD7488223EA0E20BD335592 /* BlackboardWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3AC73B1B9BE32CC7AB22405E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				BF843A92E4AACF29909EC200 /* AppGroup.swift */,
+				B4ED471FB50841B0DD26BFF0 /* BoardModel.swift */,
+				251B3B06E8AA444F7A4E7A56 /* BoardStore.swift */,
+				B95D4F71104C4B9CC91BDD5A /* ChalkTheme.swift */,
+				295A869BA2802D45D9F1D20D /* BoardCanvasView.swift */,
+				2642E70204FD2001921651A1 /* BoardIntents.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		42006AB264CF2AB66A8087C0 /* Blackboard */ = {
+			isa = PBXGroup;
+			children = (
+				11CBF2C398FE577DA11B6B79 /* BlackboardApp.swift */,
+				7EEBE48719F61E28201ED6DC /* BoardScreen.swift */,
+				D03266D80BD33F3F82B3EADD /* DrawingBoardView.swift */,
+				A5C068490FEB474B4DAC8F02 /* ChalkToolbar.swift */,
+				88910EC5C1988274AC30C7CE /* NotesEditorView.swift */,
+				195AF6B32590B21197A83344 /* BlackboardShortcuts.swift */,
+				B9362427B1F9912B138A4AAC /* Assets.xcassets */,
+				D7819A2BC3CE088C6754F929 /* Info.plist */,
+				7A7AEF0E94B6CD8B9277328C /* Blackboard.entitlements */,
+			);
+			path = Blackboard;
+			sourceTree = "<group>";
+		};
+		EC32E4B80B4AE4ED407A736D /* BlackboardWidget */ = {
+			isa = PBXGroup;
+			children = (
+				7B5CE1CE29232ED1BE7ACF1B /* BlackboardWidgetBundle.swift */,
+				B93E3BB31F28AFC0AA0E8FCC /* BlackboardWidget.swift */,
+				B3791E17015568A1684FBE8F /* Info.plist */,
+				CC902BADF1A4DB732FAC7756 /* BlackboardWidget.entitlements */,
+			);
+			path = BlackboardWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F01C2E624E08A72BC055B46F /* Blackboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF7259B0DCBBE475EAB9296F /* Build configuration list for PBXNativeTarget "Blackboard" */;
+			buildPhases = (
+				6B366E3A6159DC0A46CE6169 /* Sources */,
+				0F87A878AEB94E823836E22B /* Frameworks */,
+				34E903FB6EA77173817200D0 /* Resources */,
+				6B461CD41EA51ABC93F86EC9 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1640AF9803C2205B699BEEDD /* PBXTargetDependency */,
+			);
+			name = Blackboard;
+			productName = Blackboard;
+			productReference = 996AD237BC284D463E664FFE /* Blackboard.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D627CACEBFAAA465612B83CD /* BlackboardWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4ADE31F166D92D65C0C6F75B /* Build configuration list for PBXNativeTarget "BlackboardWidgetExtension" */;
+			buildPhases = (
+				E2F56E4F641B0C97C58C11A5 /* Sources */,
+				F2459633578009F3E492FB24 /* Frameworks */,
+				8894B6517AEC09E6A28B351A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BlackboardWidgetExtension;
+			productName = BlackboardWidgetExtension;
+			productReference = 0FD7488223EA0E20BD335592 /* BlackboardWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					F01C2E624E08A72BC055B46F = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					D627CACEBFAAA465612B83CD = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = CE36D6306C17890370B358E3 /* Build configuration list for PBXProject "Blackboard" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 71DC27D9F8E3B109C877BFC4;
+			productRefGroup = 113236722DEE1DC96F378B9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F01C2E624E08A72BC055B46F /* Blackboard */,
+				D627CACEBFAAA465612B83CD /* BlackboardWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		34E903FB6EA77173817200D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D104D11189389958E0E9F8CD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8894B6517AEC09E6A28B351A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6B366E3A6159DC0A46CE6169 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1181728781D9A76646844732 /* ChalkToolbar.swift in Sources */,
+				227A239F9F6B6EAC2659F741 /* DrawingBoardView.swift in Sources */,
+				24521A08E8F7117316D83BD8 /* BoardIntents.swift in Sources */,
+				2DF0C0CACFD506F05D00067E /* BoardCanvasView.swift in Sources */,
+				5D704BCFF9A9E458A7DF42AE /* BoardStore.swift in Sources */,
+				8022AE9BBFEEA26BB24CD22A /* BoardScreen.swift in Sources */,
+				85A6F4515706E6CEBC5CDD1F /* BoardModel.swift in Sources */,
+				B13A253537BCAC9E1F3152FA /* AppGroup.swift in Sources */,
+				BA99CD6A95C1DDE6A8493046 /* BlackboardApp.swift in Sources */,
+				D57BAF528E31511BDDDAB93E /* NotesEditorView.swift in Sources */,
+				D987817BCD3A11EBF75FF2C1 /* BlackboardShortcuts.swift in Sources */,
+				DD9901D72974DDE23FF3C8EE /* ChalkTheme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2F56E4F641B0C97C58C11A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				145DED7B4A4E8CCDBFD5166A /* BoardIntents.swift in Sources */,
+				3707A938A5DEA432D8B304E5 /* ChalkTheme.swift in Sources */,
+				8A6CD8B4FFF750A8A01FBEFC /* AppGroup.swift in Sources */,
+				8C297A920374C3482B591395 /* BoardCanvasView.swift in Sources */,
+				A1385D8F44B163EDD8C0AA4C /* BoardModel.swift in Sources */,
+				A2BE3C9929E3C6A76263732B /* BlackboardWidgetBundle.swift in Sources */,
+				C15F70E941C3ABFA6F98A357 /* BlackboardWidget.swift in Sources */,
+				E8AE201C5611F1C81914DDF8 /* BoardStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1640AF9803C2205B699BEEDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D627CACEBFAAA465612B83CD /* BlackboardWidgetExtension */;
+			targetProxy = 86BEC9D78DAE6F5C4E6DEE89 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B7805B17B3FBA6138CD9811E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+			};
+			name = Debug;
+		};
+		0B8214AFF35F70FD4D320D16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		5720E44F50CECC48C511A396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Blackboard/Blackboard.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Blackboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.blackboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6C74DA344F967F06C371E872 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Blackboard/Blackboard.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Blackboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.blackboard;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		856CA1915B7AA940A70DC80F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BlackboardWidget/BlackboardWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BlackboardWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.blackboard.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D943A9AE41CB30A265A0D3EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = BlackboardWidget/BlackboardWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = BlackboardWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.blackboard.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE36D6306C17890370B358E3 /* Build configuration list for PBXProject "Blackboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7805B17B3FBA6138CD9811E /* Debug */,
+				0B8214AFF35F70FD4D320D16 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF7259B0DCBBE475EAB9296F /* Build configuration list for PBXNativeTarget "Blackboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5720E44F50CECC48C511A396 /* Debug */,
+				6C74DA344F967F06C371E872 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4ADE31F166D92D65C0C6F75B /* Build configuration list for PBXNativeTarget "BlackboardWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				856CA1915B7AA940A70DC80F /* Debug */,
+				D943A9AE41CB30A265A0D3EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}
