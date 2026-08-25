@@ -1,0 +1,97 @@
+# Compiles the Blackboard app on a macOS runner and screenshots it in a
+# simulator. This is how the project gets built and checked from a machine
+# that cannot run Xcode — no Apple Developer account and no signing needed,
+# because a simulator build requires neither.
+name: Blackboard iOS
+
+on:
+  push:
+    paths:
+      - 'Blackboard/**'
+      - '.github/workflows/blackboard-ios.yml'
+  pull_request:
+    paths:
+      - 'Blackboard/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and screenshot
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes | grep -i ios || true
+
+      - name: Build for simulator
+        working-directory: Blackboard
+        run: |
+          set +e
+          xcodebuild build \
+            -project Blackboard.xcodeproj \
+            -scheme Blackboard \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          echo "::group::Compiler errors"
+          grep -E "error:" build.log | sort -u | head -100 || echo "none"
+          echo "::endgroup::"
+          echo "::group::Warnings"
+          grep -E "warning:" build.log | sort -u | head -60 || echo "none"
+          echo "::endgroup::"
+          exit $status
+
+      - name: Build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: Blackboard/build.log
+          if-no-files-found: ignore
+
+      # A bonus, and the thing you otherwise lose without a Mac: a picture of
+      # the app actually running.
+      - name: Launch in a simulator and screenshot
+        if: success()
+        continue-on-error: true
+        working-directory: Blackboard
+        run: |
+          UDID=$(xcrun simctl list devices available -j | python3 -c "import json,sys; d=json.load(sys.stdin)['devices']; c=[v['udid'] for k,vs in d.items() if 'iOS' in k for v in vs if v.get('isAvailable') and 'iPhone' in v['name']]; print(c[0] if c else '')")
+          if [ -z "$UDID" ]; then echo "no iPhone simulator available"; exit 0; fi
+          echo "simulator: $UDID"
+          xcodebuild build \
+            -project Blackboard.xcodeproj \
+            -scheme Blackboard \
+            -configuration Debug \
+            -destination "platform=iOS Simulator,id=$UDID" \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS="" > /dev/null
+          APP=$(find build/Build/Products -maxdepth 2 -name 'Blackboard.app' | head -1)
+          echo "app: $APP"
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b || true
+          xcrun simctl install "$UDID" "$APP"
+          xcrun simctl launch "$UDID" com.example.blackboard || true
+          sleep 8
+          xcrun simctl io "$UDID" screenshot app-launch.png
+
+      - name: Screenshot
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-screenshot
+          path: Blackboard/app-launch.png
+          if-no-files-found: ignore
