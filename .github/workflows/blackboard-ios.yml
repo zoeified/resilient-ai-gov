@@ -8,6 +8,7 @@ on:
   push:
     paths:
       - 'Blackboard/**'
+      - '!Blackboard/**.md'
       - '.github/workflows/blackboard-ios.yml'
   pull_request:
     paths:

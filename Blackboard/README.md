@@ -49,6 +49,24 @@ iCloud Documents container the App Group mirrors locally for the widget) — a
 real piece of work rather than a flag, so it is not in here. Say the word and
 it's the obvious next addition.
 
+## Building without a Mac
+
+Xcode is macOS-only, so `.github/workflows/blackboard-ios.yml` builds this on a
+GitHub-hosted macOS runner instead. It compiles the app and the widget
+extension for the simulator with signing disabled — **no Apple Developer
+account and no certificates needed** — prints every compiler error in a
+collapsed log group, then boots a simulator, launches the app and uploads a
+screenshot as an artifact. This repository is public, so macOS runner minutes
+are free.
+
+Verified on Xcode 16.4 / iOS 18.5: builds clean, no warnings, the widget
+extension embeds correctly, and the App Shortcuts phrases compile.
+
+What CI cannot check: the App Group (entitlements are stripped for an unsigned
+build, so the app falls back to its own Documents directory), the widget on a
+real Home Screen, and Apple Pencil. Those need a signed build on a device — see
+Setup below, then TestFlight.
+
 ## Setup
 
 1. Open `Blackboard.xcodeproj` in Xcode 15 or later.
